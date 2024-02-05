@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "12fbd85c-72db-411d-9083-15401383ae7e",
+		"name": "TrolleApiTesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create a new board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8157e347-5640-4956-90ba-45b21c37c27e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let response =pm.response.json();",
+							"pm.test(\"Board value control\", function () {",
+							"    pm.expect(response.name).is.equal(pm.environment.get(\"boardName\"))",
+							"    pm.expect(response.closed).to.be.false",
+							"});",
+							"pm.test(\"The hideVotes field must be false when A Board is created \", function () {",
+							"    pm.expect(response.prefs.hideVotes).to.be.false",
+							"});",
+							"",
+							"pm.environment.set(\"idboard\",response.id)",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cb5791a9-d3ea-4ee5-909f-ee6777985ddc",
+						"exec": [
+							"",
+							"pm.environment.set(\"boardName\",\"TrolleBoard\"+parseInt(Math.random()*1000))"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "af2ffb25-15f8-447a-b607-2674c784ef17",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/1/boards/?name={{boardName}}&key={{TrolleKey}}&token={{TrolleToken}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{boardName}}"
+						},
+						{
+							"key": "key",
+							"value": "{{TrolleKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TrolleToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a new list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a46e5fc1-4a02-4ac8-8d9e-08fabe4dd05c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"pm.environment.set(\"idList\",response.id)",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "ce616048-66f6-47a7-a5f8-4d64a4bd5b69",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/1/lists?name=TrolleList&idBoard={{idboard}}&key={{TrolleKey}}&token={{TrolleToken}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "TrolleList"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{idboard}}"
+						},
+						{
+							"key": "key",
+							"value": "{{TrolleKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TrolleToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a new card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b31e40cb-c470-4a37-b0eb-a26cbff2457d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"pm.environment.set(\"idCard\",response.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "870d3de6-2a84-482f-8efa-62d2fa72afd9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{BaseUrl}}/1/cards?idList={{idList}}&key={{TrolleKey}}&token={{TrolleToken}}&name=Add card ",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{idList}}"
+						},
+						{
+							"key": "key",
+							"value": "{{TrolleKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TrolleToken}}"
+						},
+						{
+							"key": "name",
+							"value": "Add card ",
+							"type": "text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cardUpdate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd8170fd-e0b3-4366-b5cd-505f2f7fe73b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "52f326b1-a407-4889-a303-858f8c5875f0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{BaseUrl}}/1/cards/:{id}?key={{TrolleKey}}&token={{TrolleToken}}&name=a new update",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":{id}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{TrolleKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TrolleToken}}"
+						},
+						{
+							"key": "name",
+							"value": "a new update"
+						}
+					],
+					"variable": [
+						{
+							"key": "{id}",
+							"value": "{{idCard}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cardDelete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a355eb23-95a2-40d9-b672-56e17616dfb8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "c4539604-7640-4e79-9388-0d924236fe40",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/1/cards/:{id}?key={{TrolleKey}}&token={{TrolleToken}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":{id}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{TrolleKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{TrolleToken}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "{id}",
+							"value": "{{idCard}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

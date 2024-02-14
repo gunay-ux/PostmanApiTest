@@ -89,14 +89,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a46e5fc1-4a02-4ac8-8d9e-08fabe4dd05c",
+						"id": "3bf62305-4d6a-4a45-a4f3-1a0f1a76beb1",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
 							"let response = pm.response.json();",
-							"pm.environment.set(\"idList\",response.id)",
+							"pm.environment.set(\"idList\", response.id)",
+							"",
 							"",
 							"",
 							""
